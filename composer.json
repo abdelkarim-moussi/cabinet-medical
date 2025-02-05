@@ -1,0 +1,15 @@
+{
+    "name": "ycode/cabinet-medical",
+    "autoload": {
+        "psr-4": {
+            "Ycode\\CabinetMedical\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Abdelkarim Moussi",
+            "email": "abdelkarimmoussi73@gmail.com"
+        }
+    ],
+    "require": {}
+}
