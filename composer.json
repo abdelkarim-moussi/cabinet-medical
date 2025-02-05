@@ -2,7 +2,7 @@
     "name": "ycode/cabinet-medical",
     "autoload": {
         "psr-4": {
-            "Ycode\\CabinetMedical\\": "src/"
+            "App\\": "app/"
         }
     },
     "authors": [

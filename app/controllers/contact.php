@@ -1,8 +1,7 @@
 <?php
-
 use App\Views\HomeView;
 
-class Home
+class Contact
 {
     private $homeView;
 
@@ -11,3 +10,4 @@ class Home
     }
     
 }
+
