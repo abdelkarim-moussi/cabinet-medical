@@ -1,6 +1,7 @@
 <?php
+use App\Models\Person;
 
-class Patient
+class Patient extends Person
 {
 
 }

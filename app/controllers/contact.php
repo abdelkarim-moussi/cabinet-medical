@@ -1,12 +1,15 @@
 <?php
-use App\Views\HomeView;
+// use App\Views\HomeView;
 
 class Contact
 {
-    private $homeView;
-
+   
     public function index(){
-        $this->homeView = new HomeView\Index;
+        require_once __DIR__."/../views/home/contactView.php";
+    }
+
+    public function create(){
+        echo "create object";
     }
     
 }

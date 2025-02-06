@@ -1,7 +1,9 @@
 <?php
+namespace App\Models;
 
 class Person
 {
+    private $idPerson;
     private $nom;
     private $prenom;
     private $email;
@@ -14,6 +16,13 @@ class Person
     }
 
     //getters and setters
+    public function getIdPerson(){
+        return $this->idPerson;
+    }
+    public function setIdPerson($idPerson){
+        $this->idPerson = $idPerson;
+    }
+
     public function getNom()
     {
         return $this->nom;
@@ -56,5 +65,6 @@ class Person
     public function setModDePass($motdepass){
         $this->motdepass = $motdepass;
     }
+
 
 }
