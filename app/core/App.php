@@ -1,7 +1,7 @@
 <?php
 class App
 {
-
+    
     protected $controller = "home";
     protected $method = "index";
     protected $params;
@@ -37,7 +37,6 @@ class App
         call_user_func_array([$this->controller,$this->method],$this->params);
         
     }
-
 
     private function parseUrl()
         {

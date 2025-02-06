@@ -2,6 +2,7 @@
 require_once "../core/Database.php";
 
 use App\Models\Doctor;
+use App\core\Database;
 
 class Appointement
 {
@@ -9,14 +10,17 @@ class Appointement
     private $date;
     private Doctor $doctor;
     private Patient $patient;
-    private $connection;
+    private static $connection;
 
-    function __construct($date,Doctor $doctor)
+    function __construct($idApp,$date,Doctor $doctor, Patient $patient)
     {
-        $this->connection = Database::getInstance()->getConnection();
+    
+        $this->idApp = $idApp;
         $this->date = $date;
         $this->doctor =$doctor;
+        $this->patient = $patient;
 
+        self::$connection = Database::getInstance()->getConnection();
     }
 
 
@@ -53,14 +57,33 @@ class Appointement
     }
 
     public function findAll(){
-        $stmt = $this->connection->prepare("SELECT * FROM public.rendez_vous");
+        $stmt = self::$connection->prepare("SELECT * FROM public.rendez_vous");
         $stmt->execute();
-        $stmt->fetchObject('Appointment');
+        $appointmnents = [];
+        $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+        while($result){
+
+            foreach($result as $obj){
+                $appointmnent = new self($obj->id_rend,$obj->date,$obj->id_person,$obj->id_medcin);
+                array_push($appointmnents,$appointmnent);
+            }
+            return $appointmnents;
+        
+        }
+    }
+
+    public function findById($id){
+
+        $stmt = self::$connection->prepare("SELECT * FROM public.rendez_vous WHERE id_rend = :id_rend");
+        $stmt->bindParam(':id_rend',$id);
+        $stmt->execute();
+        return $result = $stmt->fetchObject(__CLASS__);
+
     }
 
     public function create(){
 
-        $stmt = $this->connection->prepare("INSERT INTO public.rendez_vous (id_person,id_medcin,date_rv) VALUES(:id_person,:id_medcin,:date_rv)");
+        $stmt = self::$connection->prepare("INSERT INTO public.rendez_vous (id_person,id_medcin,date_rv) VALUES(:id_person,:id_medcin,:date_rv)");
         
         $stmt->bindParam(':id_person',$this->patient->getIdPerson());
         $stmt->bindParam(':id_medcin',$this->doctor->getIdPerson());
@@ -73,7 +96,7 @@ class Appointement
 
     public function update(){
 
-        $stmt = $this->connection->prepare("UPDATE public.rendez_vous SET id_medcin = :id_medcin , date_rv = :date_rv");
+        $stmt = self::$connection->prepare("UPDATE public.rendez_vous SET id_medcin = :id_medcin , date_rv = :date_rv");
 
         $stmt->bindParam(':id_medcin',$this->doctor->getIdPerson());
 
@@ -87,7 +110,7 @@ class Appointement
 
     public function delete(){
 
-        $stmt = $this->connection->prepare("DELETE FROM public.rendez_vous WHERE id_rend = :id_rend");
+        $stmt = self::$connection->prepare("DELETE FROM public.rendez_vous WHERE id_rend = :id_rend");
         $stmt->bindParam('id_rend',$this->idApp);
         $stmt->execute();
         return $stmt->execute();
