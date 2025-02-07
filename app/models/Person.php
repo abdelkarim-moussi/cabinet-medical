@@ -3,8 +3,9 @@ namespace App\Models;
 
 use PDO;
 use App\core\Database;
+use IModelRepositorie;
 
-class Person
+class Person implements IModelRepositorie
 {
     private $idPerson;
     private $nom;
@@ -121,7 +122,7 @@ class Person
 
     }
 
-    public function update($id){
+    public function update(){
 
         $stmt = self::$connection->prepare("UPDATE public.personne 
         SET nom = :nom, prenom = :prenom, telephone = :telephone, email = :email, mod_de_pass = :mod_de_pass
@@ -132,6 +133,7 @@ class Person
         $stmt->bindParam('telephone',$this->telephone);
         $stmt->bindParam('email',$this->email);
         $stmt->bindParam('mod_de_pass',$this->motdepass);
+        $stmt->bindParam('id_person',$this->idPerson);
         $stmt->execute();
 
         return $stmt->execute();
